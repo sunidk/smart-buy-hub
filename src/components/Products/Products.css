@@ -54,9 +54,9 @@
 .filters button {
   padding: 6px 13px;
   border-radius: 20px;
-  border: 1px solid transparent;
+  border: 1px solid #2a2a30;
   background: #18181c;
-  color: #888;
+  color: #bbb;
   cursor: pointer;
   transition: 0.2s;
   font-size: 13px;
@@ -169,7 +169,7 @@
 
 /* FOOTER */
 .footer {
-  color: #555;
+  color: #aaa;
   font-size: 13px;
   padding-top: 4px;
 }
@@ -180,7 +180,7 @@
   align-items: center;
   justify-content: center;
   min-height: 240px;
-  color: #444;
+  color: #aaa;
   font-size: 15px;
 }
 
