@@ -98,6 +98,7 @@ const Products = ({ search = "" }) => {
                   <img
                     src={p.image || "https://via.placeholder.com/300"}
                     alt={p.title}
+                    loading="lazy"
                   />
                 </a>
 
