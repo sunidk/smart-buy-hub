@@ -7,17 +7,13 @@ const categories = [
   "All",
   "Clothes",
   "Electronics",
-  "Furniture",
   "Shoes",
-  "Grocery",
   "Sports",
   "Beauty",
   "Books",
-  "Toys",
   "Accessories",
   "Home Decor",
-  "Kitchen",
-  "Fitness"
+  "Kitchen"
 ];
 
 const Products = ({ search = "" }) => {
