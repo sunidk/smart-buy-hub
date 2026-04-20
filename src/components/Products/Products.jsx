@@ -99,6 +99,9 @@ const Products = ({ search = "" }) => {
 
                 <div className="card-info">
                   <h3>{p.title}</h3>
+                  {p.description && (
+                    <p className="card-desc">{p.description}</p>
+                  )}
                   <div className="card-bottom">
                     <span className="price">₹{p.price}</span>
                     <a
