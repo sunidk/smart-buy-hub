@@ -6,14 +6,10 @@ import "./Products.css";
 const categories = [
   "All",
   "Clothes",
-  "Electronics",
   "Shoes",
-  "Sports",
   "Beauty",
-  "Books",
   "Accessories",
-  "Home Decor",
-  "Kitchen"
+  "Home Decor"
 ];
 
 const Products = ({ search = "" }) => {
@@ -63,6 +59,9 @@ const Products = ({ search = "" }) => {
     <div className="products-page">
       <div className="top-bar">
         <h2>Products</h2>
+        {!loading && (
+          <span className="product-count">{filteredProducts.length} items</span>
+        )}
       </div>
 
       <div className="filters">
@@ -100,16 +99,17 @@ const Products = ({ search = "" }) => {
 
                 <div className="card-info">
                   <h3>{p.title}</h3>
-                  <p>₹{p.price}</p>
-
-                  <a
-                    href={p.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="arrow"
-                  >
-                    ↗
-                  </a>
+                  <div className="card-bottom">
+                    <span className="price">₹{p.price}</span>
+                    <a
+                      href={p.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="buy-btn"
+                    >
+                      Buy Now
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
