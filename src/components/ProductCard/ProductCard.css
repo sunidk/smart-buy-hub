@@ -1,0 +1,245 @@
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pcard {
+  background: linear-gradient(180deg, #17171b 0%, #121215 100%);
+  border: 1px solid #23232b;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  opacity: 0;
+  animation: cardIn 0.5s ease forwards;
+  animation-delay: var(--delay, 0s);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.pcard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 58, 237, 0.65);
+  box-shadow: 0 18px 40px rgba(124, 58, 237, 0.18);
+}
+
+.pcard-topline {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* BADGE */
+.pcard-badge {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 4px 7px;
+  border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(220, 38, 38, 0.24);
+}
+
+/* IMAGE */
+.pcard-img-wrap {
+  display: block;
+  background: #fff;
+  overflow: hidden;
+  margin: 11px 11px 0;
+  border-radius: 12px;
+  aspect-ratio: 1 / 1.18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pcard-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s ease;
+  padding: 11px;
+}
+
+.pcard:hover .pcard-img-wrap img {
+  transform: scale(1.04);
+}
+
+/* BODY */
+.pcard-body {
+  padding: 11px 11px 11px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 7px;
+}
+
+.pcard-body h3 {
+  font-size: 13px;
+  font-weight: 500;
+  color: #d1d5db;
+  line-height: 1.34;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* RATING */
+.pcard-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+  width: fit-content;
+  padding: 3px 7px;
+  border-radius: 999px;
+}
+
+.pcard-rating span {
+  color: #ddd;
+  font-size: 11px;
+}
+
+.pcard-rating-count {
+  color: #888 !important;
+}
+
+/* PRICE */
+.pcard-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: 0;
+}
+
+.pcard-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.pcard-original {
+  font-size: 12px;
+  color: #8b8f98;
+  text-decoration: line-through;
+  opacity: 0.95;
+}
+
+.pcard-offer-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 9px;
+  color: #c4b5fd;
+  background: rgba(124, 58, 237, 0.08);
+  border: 1px solid rgba(124, 58, 237, 0.16);
+  border-radius: 10px;
+  padding: 5px 8px;
+}
+
+.pcard-offer-note strong {
+  color: #a78bfa;
+  font-size: 10px;
+}
+
+/* BUTTON */
+.pcard-btn {
+  display: block;
+  text-align: center;
+  padding: 9px 10px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: auto;
+  transition: transform 0.2s, filter 0.2s;
+  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.22);
+}
+
+.pcard-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+@media (max-width: 640px) {
+  .pcard {
+    border-radius: 14px;
+  }
+
+  .pcard-topline {
+    top: 6px;
+    left: 6px;
+  }
+
+  .pcard-badge {
+    font-size: 8px;
+    padding: 3px 6px;
+  }
+
+  .pcard-img-wrap {
+    margin: 8px 8px 0;
+    border-radius: 10px;
+    aspect-ratio: 1 / 1.03;
+  }
+
+  .pcard-img-wrap img {
+    padding: 8px;
+  }
+
+  .pcard-body {
+    padding: 8px 8px 9px;
+    gap: 5px;
+  }
+
+  .pcard-body h3 {
+    font-size: 11px;
+    line-height: 1.28;
+  }
+
+  .pcard-rating {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .pcard-rating span {
+    font-size: 9px;
+  }
+
+  .pcard-price-row {
+    gap: 6px;
+  }
+
+  .pcard-price {
+    font-size: 15px;
+  }
+
+  .pcard-original {
+    font-size: 10px;
+  }
+
+  .pcard-offer-note {
+    font-size: 8px;
+    padding: 4px 6px;
+  }
+
+  .pcard-offer-note strong {
+    font-size: 9px;
+  }
+
+  .pcard-btn {
+    padding: 7px 8px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+}
