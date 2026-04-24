@@ -1,12 +1,15 @@
 import "./CategoryRow.css";
 
 const CATS = [
-  { key: "All",         label: "All",          emoji: "🛍️" },
-  { key: "Clothes",     label: "Clothes",       emoji: "👕" },
-  { key: "Shoes",       label: "Shoes",         emoji: "👟" },
-  { key: "Beauty",      label: "Beauty",        emoji: "💄" },
-  { key: "Accessories", label: "Accessories",   emoji: "⌚" },
-  { key: "Home Decor",  label: "Home Decor",    emoji: "🪴" },
+  { key: "All",         label: "All",        emoji: "🛍️" },
+  { key: "Shirt",       label: "Shirts",     emoji: "👔" },
+  { key: "TShirt",     label: "T-Shirts",   emoji: "👕" },
+  { key: "Kurta",       label: "Kurtas",      emoji: "👗" },
+  { key: "Western",     label: "Western",    emoji: "🧥" },
+  { key: "Shoes",       label: "Shoes",      emoji: "👟" },
+  { key: "Beauty",      label: "Beauty",     emoji: "💄" },
+  { key: "Accessories", label: "Accessories",emoji: "⌚" },
+  { key: "Home Decor",  label: "Home Decor", emoji: "🪴" },
 ];
 
 const CategoryRow = ({ active, onSelect }) => (

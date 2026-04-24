@@ -9,11 +9,23 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color-scheme: dark;
+
+  --accent:       #f59e0b;
+  --accent-dark:  #d97706;
+  --accent-light: #fbbf24;
+  --teal:         #0ea5e9;
+  --bg:           #07101e;
+  --surface-1:    #0c1827;
+  --surface-2:    #0f1e31;
+  --border:       #1a2e47;
+  --border-hi:    #1e3a58;
+  --text-muted:   #94a3b8;
+  --text-dim:     #64748b;
 }
 
 body {
   margin: 0;
-  background: #0d0d0f;
+  background: var(--bg);
   color: #fff;
 }
 

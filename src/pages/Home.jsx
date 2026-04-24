@@ -94,28 +94,7 @@ const getMidnightCountdown = () => {
   return { hours, minutes, seconds };
 };
 
-const BudgetCard = ({ max, color, products, active, onClick }) => {
-  let item = null;
-
-  if (max === 299) {
-    item = products.find((p) => Number(p.price) <= 299) || products[0];
-  } else if (max === 499) {
-    item =
-      products.find(
-        (p) => Number(p.price) > 299 && Number(p.price) <= 499
-      ) ||
-      products.find((p) => Number(p.price) <= 499) ||
-      products[0];
-  } else if (max === 999) {
-    item =
-      products.find(
-        (p) => Number(p.price) > 499 && Number(p.price) <= 999
-      ) ||
-      products.find((p) => Number(p.price) <= 999) ||
-      products[0];
-  } else {
-    item = products.find((p) => Number(p.price) <= max) || products[0];
-  }
+const BudgetCard = ({ max, color, item, active, onClick }) => {
 
   return (
     <div
@@ -180,6 +159,15 @@ const Home = ({ search }) => {
     );
   };
 
+  const handleHeroDeal = (category, budget) => {
+    setActiveCategory(category);
+    setBudgetFilter(budget || null);
+    setTimeout(
+      () => trendingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+      50
+    );
+  };
+
   const sourceProducts = products.length > 0 ? products : FALLBACK_PRODUCTS;
 
   const filtered = useMemo(() => {
@@ -203,16 +191,46 @@ const Home = ({ search }) => {
     return r;
   }, [sourceProducts, search, activeCategory, budgetFilter]);
 
+  const budgetItems = useMemo(() => {
+    const usedIds = new Set();
+    const categoryScopedProducts =
+      activeCategory === "All"
+        ? sourceProducts
+        : sourceProducts.filter(
+            (p) => p.category?.toLowerCase() === activeCategory.toLowerCase()
+          );
+
+    const budgetBands = [
+      { min: 0, max: 299 },
+      { min: 299, max: 499 },
+      { min: 499, max: 999 },
+    ];
+
+    return budgetBands.map(({ min, max }) => {
+      const sorted = [...categoryScopedProducts]
+        .filter((p) => Number(p.price) > min && Number(p.price) <= max)
+        .sort((a, b) => Number(a.price) - Number(b.price));
+      const fallback = [...categoryScopedProducts]
+        .filter((p) => Number(p.price) <= max)
+        .sort((a, b) => Number(a.price) - Number(b.price));
+      const item =
+        sorted.find((p) => !usedIds.has(p.id)) ||
+        fallback.find((p) => !usedIds.has(p.id)) ||
+        sorted[0] ||
+        fallback[0] ||
+        null;
+      if (item?.id) usedIds.add(item.id);
+      return item;
+    });
+  }, [sourceProducts, activeCategory]);
+
   const trendingHeading = budgetFilter
     ? `Products under ₹${budgetFilter}`
     : "🔥 Trending Today";
 
   return (
     <main className="home">
-      <Hero
-        onShopNow={() => trendingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-        onExploreCat={() => catRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
-      />
+      <Hero onDealClick={handleHeroDeal} products={sourceProducts} />
 
       {/* ── CATEGORIES ── */}
       <div ref={catRef}>
@@ -243,12 +261,12 @@ const Home = ({ search }) => {
 
           <aside className="budget-sidebar">
             <h3 className="budget-sidebar-title">Best Under Budget</h3>
-            {BUDGET_TIERS.map(({ max, color }) => (
+            {BUDGET_TIERS.map(({ max, color }, i) => (
               <BudgetCard
                 key={max}
                 max={max}
                 color={color}
-                products={sourceProducts}
+                item={budgetItems[i]}
                 active={budgetFilter === max}
                 onClick={() => handleBudgetClick(max)}
               />

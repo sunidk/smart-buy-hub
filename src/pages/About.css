@@ -23,7 +23,7 @@
   font-weight: 800;
   margin: 0 0 12px;
   letter-spacing: -0.8px;
-  background: linear-gradient(90deg, #fff 40%, #a78bfa);
+  background: linear-gradient(90deg, #fff 40%, #f59e0b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -31,10 +31,10 @@
 
 .page-content .lead {
   font-size: 17px;
-  color: #c0c0c8;
+  color: #94a3b8;
   line-height: 1.7;
   margin-bottom: 36px;
-  border-left: 3px solid #7c3aed;
+  border-left: 3px solid #f59e0b;
   padding-left: 16px;
 }
 
@@ -45,13 +45,13 @@
 .page-content h2 {
   font-size: 18px;
   font-weight: 700;
-  color: #a78bfa;
+  color: #f59e0b;
   margin: 0 0 10px;
 }
 
 .page-content p {
   font-size: 15px;
-  color: #c0c0c8;
+  color: #94a3b8;
   line-height: 1.75;
   margin: 0;
 }
@@ -67,7 +67,7 @@
 
 .page-content ul li {
   font-size: 15px;
-  color: #c0c0c8;
+  color: #94a3b8;
   line-height: 1.6;
   padding-left: 18px;
   position: relative;
@@ -77,11 +77,11 @@
   content: "•";
   position: absolute;
   left: 0;
-  color: #7c3aed;
+  color: #f59e0b;
 }
 
 .page-content a {
-  color: #a78bfa;
+  color: #fbbf24;
   text-decoration: underline;
   text-underline-offset: 3px;
 }

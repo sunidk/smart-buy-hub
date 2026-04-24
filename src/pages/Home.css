@@ -28,11 +28,10 @@
   letter-spacing: -0.4px;
 }
 
-
 .clear-filter-btn {
-  background: rgba(124, 58, 237, 0.2);
-  border: 1px solid #7c3aed;
-  color: #a78bfa;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid #f59e0b;
+  color: #f59e0b;
   font-size: 12px;
   font-weight: 600;
   padding: 3px 10px;
@@ -42,7 +41,7 @@
 }
 
 .clear-filter-btn:hover {
-  background: rgba(124, 58, 237, 0.35);
+  background: rgba(245, 158, 11, 0.24);
 }
 
 /* ── TRENDING LAYOUT ── */
@@ -61,8 +60,8 @@
 
 /* skeleton */
 .pcard-skeleton {
-  background: linear-gradient(180deg, #17171b, #121215);
-  border: 1px solid #23232b;
+  background: linear-gradient(180deg, #0d1e32, #0a1828);
+  border: 1px solid #1a2e47;
   border-radius: 18px;
   height: 312px;
   animation: shimmer 1.4s ease-in-out infinite;
@@ -74,7 +73,7 @@
 }
 
 .no-products {
-  color: #888;
+  color: #64748b;
   grid-column: 1 / -1;
   padding: 40px 0;
   text-align: center;
@@ -118,8 +117,8 @@
 }
 
 .budget-card-active {
-  border-color: rgba(167, 139, 250, 0.8) !important;
-  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.22), 0 16px 30px rgba(0, 0, 0, 0.32) !important;
+  border-color: rgba(245, 158, 11, 0.7) !important;
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2), 0 16px 30px rgba(0, 0, 0, 0.32) !important;
 }
 
 .budget-card-text h4 {
@@ -172,7 +171,7 @@
   display: inline-block;
   font-size: 12px;
   font-weight: 700;
-  color: #a78bfa;
+  color: #fbbf24;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -187,13 +186,13 @@
 }
 
 .promo-new-arrivals {
-  background: linear-gradient(135deg, #1a0a2e, #2d1b69);
-  border: 1px solid #3b1f7a;
+  background: linear-gradient(135deg, #071525, #0c2040);
+  border: 1px solid #1a3560;
 }
 
 .promo-limited {
-  background: linear-gradient(135deg, #1f0a1a, #4a0a3a);
-  border: 1px solid #7a1a5a;
+  background: linear-gradient(135deg, #0d1c0a, #1a3a10);
+  border: 1px solid #2a5a1a;
 }
 
 .promo-btn {
@@ -201,8 +200,8 @@
   align-items: center;
   gap: 8px;
   padding: 10px 22px;
-  background: #fff;
-  color: #1a0a2e;
+  background: #f59e0b;
+  color: #07101e;
   border: none;
   border-radius: 24px;
   font-size: 14px;
@@ -212,7 +211,7 @@
 }
 
 .promo-btn:hover {
-  opacity: 0.85;
+  opacity: 0.88;
 }
 
 .countdown {
@@ -224,7 +223,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   padding: 8px 14px;
 }
@@ -241,7 +240,6 @@
   color: rgba(255, 255, 255, 0.6);
   margin-top: 2px;
 }
-
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
@@ -269,13 +267,13 @@
 @media (max-width: 640px) {
   .home {
     width: 100%;
-    padding-top: 8px;
+    padding-top: 4px;
   }
 
   .home-section,
   .promo-section {
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .trending-grid {
@@ -284,7 +282,7 @@
   }
 
   .trending-layout {
-    gap: 10px;
+    gap: 12px;
   }
 
   .budget-sidebar {
@@ -309,7 +307,7 @@
   }
 
   .pcard-skeleton {
-    height: 258px;
+    height: 238px;
   }
 
   .promo-section {
@@ -349,5 +347,42 @@
 
   .countdown small {
     font-size: 9px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .budget-sidebar-title {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .home-section,
+  .promo-section {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .section-header {
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-size: 17px;
+  }
+
+  .trending-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .pcard-skeleton {
+    height: 225px;
+  }
+
+  .budget-card {
+    padding: 9px 8px;
   }
 }
