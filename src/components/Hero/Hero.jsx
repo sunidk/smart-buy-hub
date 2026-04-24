@@ -31,7 +31,14 @@ const Hero = ({ onDealClick, products = [] }) => {
   return (
     <section className="hero">
       <div className="hero-img-wrap">
-        <img src={heroImg} alt="Smart Buy Hub Hero" className="hero-image" />
+        <img
+          src={heroImg}
+          alt="Smart Buy Hub Hero"
+          className="hero-image"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
       </div>
 
       <div className="hero-deals">
@@ -48,7 +55,13 @@ const Hero = ({ onDealClick, products = [] }) => {
               <span className="deal-link">View Products <HiArrowRight /></span>
             </div>
             {d.item?.image && (
-              <img src={d.item.image} alt={d.item.title} className="deal-img" loading="lazy" />
+              <img
+                src={d.item.image}
+                alt={d.item.title}
+                className="deal-img"
+                loading="lazy"
+                decoding="async"
+              />
             )}
           </button>
         ))}

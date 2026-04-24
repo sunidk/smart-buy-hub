@@ -36,6 +36,7 @@ const ProductCard = ({ product: p, index = 0 }) => {
         src={p.image || "https://via.placeholder.com/300"}
         alt={p.title}
         loading="lazy"
+        decoding="async"
       />
     </a>
 
