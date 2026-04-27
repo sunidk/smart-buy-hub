@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import "./Products.css";
@@ -12,10 +12,15 @@ const categories = [
   "Home Decor"
 ];
 
+const ROWS_PER_PAGE = 2;
+
 const Products = ({ search = "" }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [colCount, setColCount] = useState(4);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,6 +41,21 @@ const Products = ({ search = "" }) => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    if (!gridRef.current) return;
+
+    const measure = () => {
+      const computed = window.getComputedStyle(gridRef.current);
+      const cols = computed.gridTemplateColumns.split(" ").filter(Boolean).length;
+      if (cols > 0) setColCount(cols);
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(gridRef.current);
+    return () => observer.disconnect();
+  }, [loading]);
+
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
@@ -54,6 +74,35 @@ const Products = ({ search = "" }) => {
 
     return result;
   }, [products, search, activeFilter]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter, search]);
+
+  const itemsPerPage = colCount * ROWS_PER_PAGE;
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const pagedProducts = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const goTo = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    const pages = [];
+    if (currentPage <= 4) {
+      pages.push(1, 2, 3, 4, 5, "...", totalPages);
+    } else if (currentPage >= totalPages - 3) {
+      pages.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pages.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
+    }
+    return pages;
+  };
 
   return (
     <div className="products-page">
@@ -82,8 +131,8 @@ const Products = ({ search = "" }) => {
         ) : filteredProducts.length === 0 ? (
           <div className="empty">No products found</div>
         ) : (
-          <div className="grid">
-            {filteredProducts.map((p, index) => (
+          <div className="grid" ref={gridRef}>
+            {pagedProducts.map((p, index) => (
               <div
                 className="card"
                 key={p.id}
@@ -120,8 +169,44 @@ const Products = ({ search = "" }) => {
         )}
       </div>
 
+      {!loading && filteredProducts.length > 0 && (
+        <div className="pagination">
+          <button
+            className="page-btn nav-btn"
+            onClick={() => goTo(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            ‹
+          </button>
+
+          {getPageNumbers().map((page, i) =>
+            page === "..." ? (
+              <span key={`ellipsis-${i}`} className="page-ellipsis">…</span>
+            ) : (
+              <button
+                key={page}
+                className={`page-btn${currentPage === page ? " active" : ""}`}
+                onClick={() => goTo(page)}
+              >
+                {page}
+              </button>
+            )
+          )}
+
+          <button
+            className="page-btn nav-btn"
+            onClick={() => goTo(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            ›
+          </button>
+        </div>
+      )}
+
       <div className="footer">
-        <span>Showing {filteredProducts.length} products</span>
+        <span>
+          Showing {(currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length} products
+        </span>
       </div>
     </div>
   );

@@ -177,9 +177,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 40vw;
-    min-width: 160px;
-    max-width: 260px;
+    width: 50vw;
     height: 100vh;
     background: rgba(7, 16, 30, 0.98);
     border-left: 1px solid #1a2e47;
@@ -244,8 +242,6 @@
   }
 
   .nav-links {
-    width: 40vw;
-    min-width: 150px;
-    max-width: 210px;
+    width: 50vw;
   }
 }

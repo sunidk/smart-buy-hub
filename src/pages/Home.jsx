@@ -121,14 +121,20 @@ const BudgetCard = ({ max, color, item, active, onClick }) => {
   );
 };
 
+const ROWS_PER_PAGE = 2;
+
 const Home = ({ search }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
   const [budgetFilter, setBudgetFilter] = useState(null);
   const [countdown, setCountdown] = useState(getMidnightCountdown);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [colCount, setColCount] = useState(6);
+  const [sidebarActiveBudget, setSidebarActiveBudget] = useState(null);
   const trendingRef = useRef(null);
   const catRef = useRef(null);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     getDocs(collection(db, "products"))
@@ -149,15 +155,35 @@ const Home = ({ search }) => {
   const handleCategorySelect = (cat) => {
     setActiveCategory(cat);
     setBudgetFilter(null);
+    setSidebarActiveBudget(null);
   };
 
   const handleBudgetClick = (max) => {
-    setBudgetFilter((prev) => (prev === max ? null : max));
+    const next = sidebarActiveBudget === max ? null : max;
+    setSidebarActiveBudget(next);
+    setBudgetFilter(next);
     setTimeout(
       () => trendingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
       50
     );
   };
+
+  useEffect(() => {
+    if (!gridRef.current) return;
+    const measure = () => {
+      const cols = window.getComputedStyle(gridRef.current)
+        .gridTemplateColumns.split(" ").filter(Boolean).length;
+      if (cols > 0) setColCount(cols);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(gridRef.current);
+    return () => observer.disconnect();
+  }, [loading]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, budgetFilter, search]);
 
   const handleHeroDeal = (category, budget) => {
     setActiveCategory(category);
@@ -193,12 +219,6 @@ const Home = ({ search }) => {
 
   const budgetItems = useMemo(() => {
     const usedIds = new Set();
-    const categoryScopedProducts =
-      activeCategory === "All"
-        ? sourceProducts
-        : sourceProducts.filter(
-            (p) => p.category?.toLowerCase() === activeCategory.toLowerCase()
-          );
 
     const budgetBands = [
       { min: 0, max: 299 },
@@ -207,10 +227,10 @@ const Home = ({ search }) => {
     ];
 
     return budgetBands.map(({ min, max }) => {
-      const sorted = [...categoryScopedProducts]
+      const sorted = [...sourceProducts]
         .filter((p) => Number(p.price) > min && Number(p.price) <= max)
         .sort((a, b) => Number(a.price) - Number(b.price));
-      const fallback = [...categoryScopedProducts]
+      const fallback = [...sourceProducts]
         .filter((p) => Number(p.price) <= max)
         .sort((a, b) => Number(a.price) - Number(b.price));
       const item =
@@ -222,7 +242,32 @@ const Home = ({ search }) => {
       if (item?.id) usedIds.add(item.id);
       return item;
     });
-  }, [sourceProducts, activeCategory]);
+  }, [sourceProducts]);
+
+  const itemsPerPage = colCount * ROWS_PER_PAGE;
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const pagedProducts = filtered.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const goTo = (page) => {
+    setCurrentPage(page);
+    trendingRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    const pages = [];
+    if (currentPage <= 4) {
+      pages.push(1, 2, 3, 4, 5, "...", totalPages);
+    } else if (currentPage >= totalPages - 3) {
+      pages.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+    } else {
+      pages.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
+    }
+    return pages;
+  };
 
   const trendingHeading = budgetFilter
     ? `Products under ₹${budgetFilter}`
@@ -242,21 +287,57 @@ const Home = ({ search }) => {
         <div className="section-header">
           <h2 className="section-title">{trendingHeading}</h2>
           {budgetFilter && (
-            <button className="clear-filter-btn" onClick={() => setBudgetFilter(null)}>
+            <button className="clear-filter-btn" onClick={() => { setBudgetFilter(null); setSidebarActiveBudget(null); }}>
               Clear ✕
             </button>
           )}
         </div>
 
         <div className="trending-layout">
-          <div className="trending-grid">
-            {loading
-              ? Array(8).fill(0).map((_, i) => <div key={i} className="pcard-skeleton" />)
-              : filtered.length === 0
-              ? <p className="no-products">No products found.</p>
-              : filtered.map((p, i) => (
-                  <ProductCard key={p.id} product={p} index={i} />
-                ))}
+          <div className="trending-main">
+            <div className="trending-grid" ref={gridRef}>
+              {loading
+                ? Array(8).fill(0).map((_, i) => <div key={i} className="pcard-skeleton" />)
+                : filtered.length === 0
+                ? <p className="no-products">No products found.</p>
+                : pagedProducts.map((p, i) => (
+                    <ProductCard key={p.id} product={p} index={i} />
+                  ))}
+            </div>
+
+            {!loading && filtered.length > 0 && (
+              <div className="home-pagination">
+                <button
+                  className="hpage-btn hpage-nav"
+                  onClick={() => goTo(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  ‹
+                </button>
+
+                {getPageNumbers().map((page, i) =>
+                  page === "..." ? (
+                    <span key={`e-${i}`} className="hpage-ellipsis">…</span>
+                  ) : (
+                    <button
+                      key={page}
+                      className={`hpage-btn${currentPage === page ? " hpage-active" : ""}`}
+                      onClick={() => goTo(page)}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
+
+                <button
+                  className="hpage-btn hpage-nav"
+                  onClick={() => goTo(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  ›
+                </button>
+              </div>
+            )}
           </div>
 
           <aside className="budget-sidebar">
@@ -267,7 +348,7 @@ const Home = ({ search }) => {
                 max={max}
                 color={color}
                 item={budgetItems[i]}
-                active={budgetFilter === max}
+                active={sidebarActiveBudget === max}
                 onClick={() => handleBudgetClick(max)}
               />
             ))}

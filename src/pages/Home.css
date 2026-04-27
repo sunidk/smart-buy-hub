@@ -52,6 +52,13 @@
   align-items: start;
 }
 
+.trending-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
 .trending-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -77,6 +84,58 @@
   grid-column: 1 / -1;
   padding: 40px 0;
   text-align: center;
+}
+
+/* ── PAGINATION ── */
+.home-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.hpage-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid #1a2e47;
+  background: #0d1e32;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.hpage-btn:hover:not(:disabled) {
+  border-color: #1e3a58;
+  color: #fff;
+}
+
+.hpage-btn.hpage-active {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  border-color: transparent;
+  color: #07101e;
+}
+
+.hpage-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.hpage-nav {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.hpage-ellipsis {
+  color: #475569;
+  font-size: 14px;
+  padding: 0 2px;
+  user-select: none;
 }
 
 /* ── BUDGET SIDEBAR ── */
