@@ -1,10 +1,12 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { Link } from "react-router-dom";
 import Hero from "../components/Hero/Hero";
 import CategoryRow from "../components/CategoryRow/CategoryRow";
 import ProductCard from "../components/ProductCard/ProductCard";
 import { HiArrowRight } from "react-icons/hi";
+import { blogPosts } from "../data/blogPosts";
 import "./Home.css";
 
 const FALLBACK_PRODUCTS = [
@@ -353,6 +355,64 @@ const Home = ({ search }) => {
               />
             ))}
           </aside>
+        </div>
+      </section>
+
+      {/* ── WHY SMART BUY HUB ── */}
+      <section className="why-section">
+        <h2 className="why-title">Why Smart Buy Hub?</h2>
+        <p className="why-lead">
+          We manually sift through thousands of products so you don't have to. Every item you see
+          here is hand-picked for quality, value, and genuine usefulness — whether you're shopping
+          for fashion, beauty, footwear, accessories, or home decor.
+        </p>
+        <div className="why-grid">
+          <div className="why-card">
+            <span className="why-icon">✅</span>
+            <h4>Hand-Curated Picks</h4>
+            <p>No automated scrapers. Every product is reviewed and selected by a real person for quality and value.</p>
+          </div>
+          <div className="why-card">
+            <span className="why-icon">💸</span>
+            <h4>Best Prices, Always</h4>
+            <p>We track deals daily and update our listings so you always see products at their most competitive prices.</p>
+          </div>
+          <div className="why-card">
+            <span className="why-icon">🛡️</span>
+            <h4>Trusted Sellers Only</h4>
+            <p>All links go to established, well-reviewed sellers on major Indian platforms. We check ratings before listing.</p>
+          </div>
+          <div className="why-card">
+            <span className="why-icon">📦</span>
+            <h4>All Categories</h4>
+            <p>From everyday ethnic wear to skincare essentials, running shoes to home decor — one place for it all.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── BUYING GUIDES TEASER ── */}
+      <section className="guides-teaser-section">
+        <div className="guides-teaser-header">
+          <h2 className="section-title">Buying Guides &amp; Tips</h2>
+          <Link to="/guides" className="guides-see-all">See All Guides <HiArrowRight /></Link>
+        </div>
+        <p className="guides-teaser-lead">
+          Not sure what to buy? Our in-depth guides cover everything from budget fashion to skincare
+          routines for Indian skin — helping you make confident, informed decisions.
+        </p>
+        <div className="guides-teaser-grid">
+          {blogPosts.slice(0, 3).map((post) => (
+            <Link to={`/guides/${post.slug}`} className="guide-teaser-card" key={post.id}>
+              <div className="guide-teaser-img">
+                <img src={post.image} alt={post.title} loading="lazy" />
+              </div>
+              <div className="guide-teaser-body">
+                <span className="guide-teaser-cat">{post.category}</span>
+                <h4>{post.title}</h4>
+                <span className="guide-teaser-read">{post.readTime}</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

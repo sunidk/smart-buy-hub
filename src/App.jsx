@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -20,6 +22,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/guides" element={<Blog />} />
+          <Route path="/guides/:slug" element={<BlogPost />} />
         </Routes>
         <Footer />
       </div>

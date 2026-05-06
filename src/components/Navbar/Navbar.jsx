@@ -38,6 +38,7 @@ const Navbar = ({ search, setSearch }) => {
 
         <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           <Link to="/" className={location.pathname === "/" ? "active" : ""} onClick={close}>Home</Link>
+          <Link to="/guides" className={location.pathname.startsWith("/guides") ? "active" : ""} onClick={close}>Guides</Link>
           <Link to="/about" className={location.pathname === "/about" ? "active" : ""} onClick={close}>About</Link>
           <Link to="/contact" className={location.pathname === "/contact" ? "active" : ""} onClick={close}>Contact</Link>
         </nav>
